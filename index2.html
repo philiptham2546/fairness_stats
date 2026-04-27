@@ -565,7 +565,278 @@
   ];
     
 
+      var AI_USE_SOURCE_MARKERS = [
+        'Classification tasks',
+        'Natural Language Processing',
+        'Algorithms (optimization)',
+        'LLM & chatbots',
+        'Recommendation systems',
+        'Embodied systems',
+        'Generative AI',
+        'Benchmarking'
+      ];
+
+      function isLevel2SankeyLink(source) {
+        return AI_USE_SOURCE_MARKERS.some(function(cat) {
+          return source.indexOf(cat) !== -1;
+        });
+      }
+
+      function getTotalCases(dataset) {
+        var total = 0;
+        for (var i = 0; i < dataset.length; i++) {
+          total += dataset[i][2];
+        }
+        return total;
+      }
+
+      function getFairnessIssueLabelSet(dataset) {
+        var set = {};
+        for (var i = 0; i < dataset.length; i++) {
+          if (isLevel2SankeyLink(dataset[i][0])) {
+            set[dataset[i][1]] = true;
+          }
+        }
+        return set;
+      }
+
+      function getFairnessIssuesWithCounts(dataset) {
+        var fairnessMap = {};
+
+        for (var i = 0; i < dataset.length; i++) {
+          var source = dataset[i][0];
+          var dest = dataset[i][1];
+          var weight = dataset[i][2];
+
+          if (isLevel2SankeyLink(source)) {
+            if (!fairnessMap[dest]) {
+              fairnessMap[dest] = 0;
+            }
+            fairnessMap[dest] += weight;
+          }
+        }
+
+        return fairnessMap;
+      }
+
+      /**
+       * Level-2 destinations become "Name (count, pct%)" where pct is share of all level-2 weights.
+       */
+      function augmentSankeyDatasetWithFairnessStats(dataset) {
+        var fairnessMap = getFairnessIssuesWithCounts(dataset);
+        var totalL2 = 0;
+        for (var i = 0; i < dataset.length; i++) {
+          if (isLevel2SankeyLink(dataset[i][0])) {
+            totalL2 += dataset[i][2];
+          }
+        }
+        if (totalL2 <= 0) {
+          totalL2 = 1;
+        }
+
+        var destRename = {};
+        for (var name in fairnessMap) {
+          if (!Object.prototype.hasOwnProperty.call(fairnessMap, name)) continue;
+          var c = fairnessMap[name];
+          var pct = Math.round((c / totalL2) * 100);
+          destRename[name] = name + ' (' + c + ', ' + pct + '%)';
+        }
+
+        return dataset.map(function(row) {
+          var r = row.slice();
+          if (isLevel2SankeyLink(r[0]) && destRename[r[1]]) {
+            r[1] = destRename[r[1]];
+          }
+          return r;
+        });
+      }
+
+      function normalizeSankeyLabelText(s) {
+        return (s || '').replace(/\s+/g, ' ').trim();
+      }
+
+      /**
+       * Google Sankey places labels for nodes in the right half of the chart to the LEFT of
+       * the node (w.x0 < width/2 → label on right; else on left). The rightmost column always
+       * sits in the right half, so fairness labels overlap the middle column. Labels are not
+       * grouped with rects in the same <g>, so we match <text> to right-column rects by
+       * vertical overlap and shift x in the label's parent coordinate system.
+       */
+      function repositionFairnessIssueSankeyLabels(containerId, dataset) {
+        var fairnessLabels = getFairnessIssueLabelSet(dataset);
+        var container = document.getElementById(containerId);
+        if (!container) return;
+
+        var svg = container.querySelector('svg');
+        if (!svg) {
+          var iframe = container.querySelector('iframe');
+          if (iframe && iframe.contentDocument) {
+            svg = iframe.contentDocument.querySelector('svg');
+          }
+        }
+        if (!svg) return;
+
+        var rects = Array.prototype.slice.call(svg.querySelectorAll('rect'));
+        var nodeRects = rects.filter(function(r) {
+          var w = parseFloat(r.getAttribute('width'));
+          var h = parseFloat(r.getAttribute('height'));
+          if (isNaN(w) || isNaN(h)) return false;
+          return w >= 2 && w <= 80 && h >= 3;
+        });
+        if (!nodeRects.length) return;
+
+        var maxRight = nodeRects.reduce(function(acc, r) {
+          return Math.max(acc, r.getBoundingClientRect().right);
+        }, -Infinity);
+
+        var colEps = 16;
+        var rightColRects = nodeRects.filter(function(r) {
+          return Math.abs(r.getBoundingClientRect().right - maxRight) <= colEps;
+        });
+        if (!rightColRects.length) return;
+
+        var labelPad = 8;
+
+        function textAnchorClientX(t, tbr) {
+          var a = (t.getAttribute('text-anchor') || '').trim().toLowerCase();
+          if (!a && typeof window.getComputedStyle === 'function') {
+            a = (window.getComputedStyle(t).getPropertyValue('text-anchor') || '').trim().toLowerCase();
+          }
+          if (a === 'end') return tbr.right;
+          if (a === 'middle') return tbr.left + tbr.width / 2;
+          return tbr.left;
+        }
+
+        function shiftTextHorizToClientX(t, targetClientX) {
+          // x / y on <text> and <tspan> are in this element's user space, not the parent's.
+          var ctm = t.getScreenCTM && t.getScreenCTM();
+          if (!ctm || typeof ctm.inverse !== 'function') return;
+
+          var tbr = t.getBoundingClientRect();
+          var tcy = tbr.top + tbr.height / 2;
+          var fromX = textAnchorClientX(t, tbr);
+
+          var ptFrom = svg.createSVGPoint();
+          ptFrom.x = fromX;
+          ptFrom.y = tcy;
+          var ptTo = svg.createSVGPoint();
+          ptTo.x = targetClientX;
+          ptTo.y = tcy;
+
+          var locFrom = ptFrom.matrixTransform(ctm.inverse());
+          var locTo = ptTo.matrixTransform(ctm.inverse());
+          var dx = locTo.x - locFrom.x;
+
+          var wantPx = targetClientX - fromX;
+          if (!isFinite(dx) || (Math.abs(wantPx) > 2 && Math.abs(dx) < 0.5)) {
+            var sbr = svg.getBoundingClientRect();
+            var sw = parseFloat(svg.getAttribute('width')) || svg.viewBox.baseVal.width || sbr.width;
+            if (sbr.width > 0 && sw > 0) dx = wantPx * (sw / sbr.width);
+            else dx = wantPx;
+          }
+
+          t.setAttribute('text-anchor', 'start');
+          var tspans = t.querySelectorAll('tspan');
+          if (tspans.length) {
+            var ts0 = tspans[0];
+            var ox = parseFloat(ts0.getAttribute('x'));
+            if (isNaN(ox)) ox = parseFloat(t.getAttribute('x'));
+            if (isNaN(ox)) ox = locFrom.x;
+            t.removeAttribute('x');
+            ts0.setAttribute('x', String(ox + dx));
+            ts0.setAttribute('text-anchor', 'start');
+          } else {
+            var ox = parseFloat(t.getAttribute('x'));
+            if (!isNaN(ox)) t.setAttribute('x', String(ox + dx));
+            else t.setAttribute('x', String(locTo.x));
+          }
+        }
+
+        var texts = Array.prototype.slice.call(svg.querySelectorAll('text'));
+        texts.forEach(function(t) {
+          var label = normalizeSankeyLabelText(t.textContent);
+          if (!fairnessLabels[label]) return;
+
+          var tbr = t.getBoundingClientRect();
+          var tcy = tbr.top + tbr.height / 2;
+
+          var best = null;
+          var bestDist = Infinity;
+          for (var j = 0; j < rightColRects.length; j++) {
+            var r = rightColRects[j];
+            var rbr = r.getBoundingClientRect();
+            var rcy = rbr.top + rbr.height / 2;
+            var d = Math.abs(rcy - tcy);
+            if (d < bestDist) {
+              bestDist = d;
+              best = r;
+            }
+          }
+          if (!best) return;
+
+          shiftTextHorizToClientX(t, best.getBoundingClientRect().right + labelPad);
+        });
+      }
+
+      /**
+       * Google Sankey re-lays out labels on hover/tooltip; re-apply our fairness label positions.
+       */
+      function keepFairnessSankeyLabelsReanchored(chart, containerId, dataset) {
+        var wrap = document.getElementById(containerId);
+        if (!wrap) return;
+        var svgEl = wrap.querySelector('svg');
+        if (!svgEl) {
+          var iframe = wrap.querySelector('iframe');
+          if (iframe && iframe.contentDocument) {
+            svgEl = iframe.contentDocument.querySelector('svg');
+          }
+        }
+        if (!svgEl) return;
+
+        var moOpts = {
+          subtree: true,
+          attributes: true,
+          attributeFilter: ['x', 'y', 'text-anchor', 'transform']
+        };
+
+        var mo = null;
+
+        function runWhileMoPaused() {
+          if (mo) mo.disconnect();
+          try {
+            repositionFairnessIssueSankeyLabels(containerId, dataset);
+          } finally {
+            if (mo) mo.observe(svgEl, moOpts);
+          }
+        }
+
+        if (typeof MutationObserver !== 'undefined') {
+          var moTimer = null;
+          mo = new MutationObserver(function() {
+            if (moTimer) clearTimeout(moTimer);
+            moTimer = setTimeout(function() {
+              moTimer = null;
+              runWhileMoPaused();
+            }, 48);
+          });
+          mo.observe(svgEl, moOpts);
+        }
+
+        var hoverTimer = null;
+        function onChartHover() {
+          if (hoverTimer) clearTimeout(hoverTimer);
+          hoverTimer = setTimeout(function() {
+            hoverTimer = null;
+            requestAnimationFrame(runWhileMoPaused);
+            setTimeout(runWhileMoPaused, 60);
+          }, 8);
+        }
+        google.visualization.events.addListener(chart, 'onmouseover', onChartHover);
+        google.visualization.events.addListener(chart, 'onmouseout', onChartHover);
+      }
+
       function drawSankey(dataset, containerId) {
+        var displayDataset = augmentSankeyDatasetWithFairnessStats(dataset);
         var data = new google.visualization.DataTable();
 
         data.addColumn('string', 'Source');
@@ -573,19 +844,28 @@
         data.addColumn('number', 'Weight');
         data.addColumn({type: 'string', role: 'tooltip', p: {html: true}});
 
-        data.addRows(dataset);
+        data.addRows(displayDataset);
+
+        var chartHost = document.getElementById(containerId);
+        var chartItem = chartHost ? chartHost.closest('.chart-item') : null;
+        var innerW = chartItem ? chartItem.getBoundingClientRect().width : 640;
+        var maxW = Math.floor(innerW - 32);
+        var chartWidth = Math.max(340, Math.min(560, Math.round(maxW * 0.72)));
+        var chartHeight = Math.max(280, Math.round(chartWidth * 0.48));
 
         var options = {
-          width: 600,
-          height: 500,
+          width: chartWidth,
+          height: chartHeight,
           sankey: {
+            iterations: 40,
             node: {
               label: {
-                fontSize: 11
+                fontSize: 12
               },
               interactivity: true,
-              width: 15,
-              labelPadding: 15
+              width: 10,
+              labelPadding: 10,
+              nodePadding: 6
             },
             link: {
               colorMode: 'gradient'
@@ -596,11 +876,28 @@
           }
         };
 
-        var chart = new google.visualization.Sankey(document.getElementById(containerId));
+        var chart = new google.visualization.Sankey(chartHost);
+        google.visualization.events.addListener(chart, 'ready', function() {
+          function runReposition() {
+            repositionFairnessIssueSankeyLabels(containerId, displayDataset);
+          }
+          runReposition();
+          requestAnimationFrame(runReposition);
+          setTimeout(runReposition, 80);
+          keepFairnessSankeyLabelsReanchored(chart, containerId, displayDataset);
+        });
         chart.draw(data, options);
       }
 
       function drawAllCharts() {
+        // Set subtitles with total cases
+        document.getElementById('subtitle_hl').textContent = 'Total cases: ' + getTotalCases(hl);
+        document.getElementById('subtitle_edu').textContent = 'Total cases: ' + getTotalCases(edu);
+        document.getElementById('subtitle_gov').textContent = 'Total cases: ' + getTotalCases(gov);
+        document.getElementById('subtitle_health').textContent = 'Total cases: ' + getTotalCases(health);
+        document.getElementById('subtitle_soc_media').textContent = 'Total cases: ' + getTotalCases(soc_media);
+        document.getElementById('subtitle_rev').textContent = 'Total cases: ' + getTotalCases(rev);
+        
         drawSankey(hl, 'chart_hl');
         drawSankey(edu, 'chart_edu');
         drawSankey(gov, 'chart_gov');
@@ -639,23 +936,42 @@
 
       .chart-item {
         background: #f5f5f5;
-        padding: 20px;
+        padding: 20px 20px 28px;
         border-radius: 10px;
         border: 1px solid #e0e0e0;
+        overflow: visible;
       }
 
       .chart-label {
         font-size: 14px;
         font-weight: 600;
         color: #2c3e50;
-        margin-bottom: 15px;
-        padding-bottom: 10px;
+        margin-bottom: 5px;
+        padding-bottom: 8px;
         border-bottom: 2px solid #3498db;
+      }
+
+      .chart-subtitle {
+        font-size: 12px;
+        color: #7f8c8d;
+        margin-bottom: 15px;
       }
 
       .chart-container {
         display: flex;
         justify-content: center;
+        align-items: center;
+        overflow: visible;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        padding: 4px 0 12px;
+      }
+
+      .chart-container svg,
+      .chart-container .google-visualization-sankey {
+        overflow: visible !important;
       }
 
       h2 {
@@ -690,31 +1006,37 @@
       <div class="charts-grid">
         <div class="chart-item">
           <div class="chart-label">Health & Labor</div>
+          <div class="chart-subtitle" id="subtitle_hl"></div>
           <div id="chart_hl" class="chart-container"></div>
         </div>
 
         <div class="chart-item">
           <div class="chart-label">Education & Academia</div>
+          <div class="chart-subtitle" id="subtitle_edu"></div>
           <div id="chart_edu" class="chart-container"></div>
         </div>
 
         <div class="chart-item">
           <div class="chart-label">Government, Infrastructure Management, & Social Welfare</div>
+          <div class="chart-subtitle" id="subtitle_gov"></div>
           <div id="chart_gov" class="chart-container"></div>
         </div>
 
         <div class="chart-item">
           <div class="chart-label">Healthcare & Diagnostics</div>
+          <div class="chart-subtitle" id="subtitle_health"></div>
           <div id="chart_health" class="chart-container"></div>
         </div>
 
         <div class="chart-item">
           <div class="chart-label">Social Media, Content Moderation, Entertainment, Sports</div>
+          <div class="chart-subtitle" id="subtitle_soc_media"></div>
           <div id="chart_soc_media" class="chart-container"></div>
         </div>
 
         <div class="chart-item">
           <div class="chart-label">Company Revenue Generation</div>
+          <div class="chart-subtitle" id="subtitle_rev"></div>
           <div id="chart_rev" class="chart-container"></div>
         </div>
       </div>
