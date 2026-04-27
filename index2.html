@@ -4,138 +4,44 @@
     <script type="text/javascript">
       google.charts.load('current', {'packages':['sankey']});
       google.charts.setOnLoadCallback(drawAllCharts);
-      var rev = [
+  var corporate_america = [
     // =====================================================
-    // Level 1: Company revenue generation -> AI use
-    // =====================================================
-
-    [
-      'Company revenue generation',
-      'Classification tasks (speech/voice/age recognition)',
-      3,
-      '<b>Total cases: 3</b><br/>2019 Apple Card Bias Case; AI in insurance claim review; Uber Driver Fraud Detection and Auto Deactive'
-    ],
-
-    [
-      'Company revenue generation',
-      'Natural Language Processing',
-      1,
-      '<b>Total cases: 1</b><br/>Algorithmic Case Sourcing (Legal)'
-    ],
-
-    [
-      'Company revenue generation',
-      'Algorithms (optimization)',
-      3,
-      '<b>Total cases: 3</b><br/>Algorithmic Case Sourcing (Legal); BNPL; AI Dynamic Pricing in Airlines: Fairness Implications'
-    ],
-
-    [
-      'Company revenue generation',
-      'LLM & chatbots',
-      1,
-      '<b>Total cases: 1</b><br/>How Businesses Are Manipulating ChatGPT Results'
-    ],
-
-    [
-      'Company revenue generation',
-      'Recommendation systems',
-      2,
-      '<b>Total cases: 2</b><br/>Meta AI ad system; Instacart\'s dynamic pricing'
-    ],
-
-
-    // =====================================================
-    // Level 2: AI use -> fairness issue
+    // Level 1: Corporate America -> AI use
     // =====================================================
 
     [
-      'Classification tasks (speech/voice/age recognition)',
-      'Disparate impact across social groups',
-      2,
-      '<b>Total cases: 2</b><br/>2019 Apple Card Bias Case; AI in insurance claim review'
-    ],
-
-    [
-      'Classification tasks (speech/voice/age recognition)',
-      'Uncoded fairness issue',
-      1,
-      '<b>Total cases: 1</b><br/>Uber Driver Fraud Detection and Auto Deactive'
-    ],
-
-    [
-      'Natural Language Processing',
-      'Disparate impact across social groups',
-      1,
-      '<b>Total cases: 1</b><br/>Algorithmic Case Sourcing (Legal)'
-    ],
-
-    [
-      'Algorithms (optimization)',
-      'Disparate impact across social groups',
-      2,
-      '<b>Total cases: 2</b><br/>Algorithmic Case Sourcing (Legal); BNPL'
-    ],
-
-    [
-      'Algorithms (optimization)',
-      'Uncoded fairness issue',
-      1,
-      '<b>Total cases: 1</b><br/>AI Dynamic Pricing in Airlines: Fairness Implications'
-    ],
-
-    [
-      'LLM & chatbots',
-      'Balancing between different concepts of fairness',
-      1,
-      '<b>Total cases: 1</b><br/>How Businesses Are Manipulating ChatGPT Results'
-    ],
-
-    [
-      'Recommendation systems',
-      'Privacy & surveillance concerns',
-      1,
-      '<b>Total cases: 1</b><br/>Meta AI ad system'
-    ],
-
-    [
-      'Recommendation systems',
-      'Disparate impact across social groups',
-      1,
-      '<b>Total cases: 1</b><br/>Instacart\'s dynamic pricing'
-    ]
-  ];
-    var hl = [
-    // =====================================================
-    // Level 1: Housing & Labor -> AI use
-    // =====================================================
-
-    [
-      "Housing & Labor",
+      "Corporate America",
       "Classification tasks (speech/voice/age recognition)",
-      4,
-      "<b>Total cases: 4</b><br/>Amazon resume; 2025-2026 Workday AI Hiring Lawsuit; SafeRent Tenant Screening Algorithm; AI Racial Bias in Mortgage Lending"
+      7,
+      "<b>Total cases: 7</b><br/>Amazon resume; 2019 Apple Card Bias Case; 2025-2026 Workday AI Hiring Lawsuit; AI in insurance claim review; SafeRent Tenant Screening Algorithm; AI Racial Bias in Mortgage Lending; Uber Driver Fraud Detection and Auto Deactive"
     ],
 
     [
-      "Housing & Labor",
+      "Corporate America",
       "Natural Language Processing",
-      2,
-      "<b>Total cases: 2</b><br/>Amazon resume; HireVue's Use of AI in Interviews"
+      3,
+      "<b>Total cases: 3</b><br/>Amazon resume; HireVue's Use of AI in Interviews; Algorithmic Case Sourcing (Legal)"
     ],
 
     [
-      "Housing & Labor",
+      "Corporate America",
       "Algorithms (optimization)",
-      4,
-      "<b>Total cases: 4</b><br/>Bossware and Bias; RealPage: dynamic rent-setting algorithms; Algorithmic Rent Pricing; AI based workplace management at Amazon"
+      7,
+      "<b>Total cases: 7</b><br/>Bossware and Bias; Algorithmic Case Sourcing (Legal); BNPL; RealPage: dynamic rent-setting algorithms; AI Dynamic Pricing in Airlines: Fairness Implications; Algorithmic Rent Pricing; AI based workplace management at Amazon"
     ],
 
     [
-      "Housing & Labor",
+      "Corporate America",
       "LLM & chatbots",
-      1,
-      "<b>Total cases: 1</b><br/>UC Berkeley BearGPT"
+      2,
+      "<b>Total cases: 2</b><br/>How Businesses Are Manipulating ChatGPT Results; UC Berkeley BearGPT"
+    ],
+
+    [
+      "Corporate America",
+      "Recommendation systems",
+      2,
+      "<b>Total cases: 2</b><br/>Meta AI ad system; Instacart's dynamic pricing"
     ],
 
 
@@ -146,22 +52,15 @@
     [
       "Classification tasks (speech/voice/age recognition)",
       "Disparate impact across social groups",
-      4,
-      "<b>Total cases: 4</b><br/>Amazon resume; 2025-2026 Workday AI Hiring Lawsuit; SafeRent Tenant Screening Algorithm; AI Racial Bias in Mortgage Lending"
+      7,
+      "<b>Total cases: 7</b><br/>Amazon resume; 2019 Apple Card Bias Case; 2025-2026 Workday AI Hiring Lawsuit; AI in insurance claim review; SafeRent Tenant Screening Algorithm; AI Racial Bias in Mortgage Lending; Uber Driver Fraud Detection and Auto Deactive"
     ],
 
     [
       "Natural Language Processing",
       "Disparate impact across social groups",
-      2,
-      "<b>Total cases: 2</b><br/>Amazon resume; HireVue's Use of AI in Interviews"
-    ],
-
-    [
-      "Algorithms (optimization)",
-      "Disparate impact across social groups",
       3,
-      "<b>Total cases: 3</b><br/>RealPage: dynamic rent-setting algorithms; Algorithmic Rent Pricing; AI based workplace management at Amazon"
+      "<b>Total cases: 3</b><br/>Amazon resume; HireVue's Use of AI in Interviews; Algorithmic Case Sourcing (Legal)"
     ],
 
     [
@@ -172,54 +71,225 @@
     ],
 
     [
+      "Algorithms (optimization)",
+      "Disparate impact across social groups",
+      6,
+      "<b>Total cases: 6</b><br/>Algorithmic Case Sourcing (Legal); BNPL; RealPage: dynamic rent-setting algorithms; AI Dynamic Pricing in Airlines: Fairness Implications; Algorithmic Rent Pricing; AI based workplace management at Amazon"
+    ],
+
+    [
+      "LLM & chatbots",
+      "Balancing between different concepts of fairness",
+      1,
+      "<b>Total cases: 1</b><br/>How Businesses Are Manipulating ChatGPT Results"
+    ],
+
+    [
       "LLM & chatbots",
       "Epistemic injustice (all types)",
       1,
       "<b>Total cases: 1</b><br/>UC Berkeley BearGPT"
+    ],
+
+    [
+      "Recommendation systems",
+      "Privacy & surveillance concerns",
+      1,
+      "<b>Total cases: 1</b><br/>Meta AI ad system"
+    ],
+
+    [
+      "Recommendation systems",
+      "Disparate impact across social groups",
+      1,
+      "<b>Total cases: 1</b><br/>Instacart's dynamic pricing"
     ]
+
+    // Zero-weight Level 1 rows omitted:
+    // Corporate America -> Embodied systems (autonomous driving): 0
+    // Corporate America -> Generative AI: 0
   ];
-  var soc_media = [
+      var public_sphere = [
     // =====================================================
-    // Level 1: Social media... -> AI use
+    // Level 1: Public Sphere -> AI use
     // =====================================================
 
     [
-      "Social media, sports, entertainment, platforms, cultural representatio, content moderation, journalism",
+      "Public Sphere",
+      "Classification tasks (speech/voice/age recognition)",
+      7,
+      "<b>Total cases: 7</b><br/>IRS Random Audit Bias; AI in Child Welfare; iTutor Age Discrimination Case; clearview AI, NYPD Misuse of Facial Recognition; Computer-aided detection (CAD) software for tuberculosis screening in South Africa; AI in EU Asylum Procedures; Biases found in Synthetic or Pseudo Data and Data Feedback Loops"
+    ],
+
+    [
+      "Public Sphere",
+      "Natural Language Processing",
+      3,
+      "<b>Total cases: 3</b><br/>AI Medical Scribes: From Burnout Relief to Revenue Optimization; Bhashini: India's National translation platform; Turnitin AI Detection"
+    ],
+
+    [
+      "Public Sphere",
+      "Algorithms (optimization)",
+      3,
+      "<b>Total cases: 3</b><br/>AI-Based College Admissions Screening; Kidney Function Estimates; AI for Diabetic Retinopathy"
+    ],
+
+    [
+      "Public Sphere",
+      "LLM & chatbots",
+      2,
+      "<b>Total cases: 2</b><br/>Google's Gemma Downplaying Women's Health Issues; Claude Interviewer Tool for Research"
+    ],
+
+    [
+      "Public Sphere",
+      "Embodied systems (autonomous driving)",
+      2,
+      "<b>Total cases: 2</b><br/>AI-Powered Infrastructure Surveillance Bias; Proctorio exam proctoring"
+    ],
+
+    [
+      "Public Sphere",
+      "Generative AI",
+      1,
+      "<b>Total cases: 1</b><br/>AI Bias in Power Systems Domain"
+    ],
+
+    [
+      "Public Sphere",
+      "Benchmarking",
+      1,
+      "<b>Total cases: 1</b><br/>Auditing the audits': takeaways from analyzing NYC's Local Law 144 bias audits"
+    ],
+
+
+    // =====================================================
+    // Level 2: AI use -> fairness issue
+    // =====================================================
+
+    [
+      "Classification tasks (speech/voice/age recognition)",
+      "Disparate impact across social groups",
+      3,
+      "<b>Total cases: 3</b><br/>AI in Child Welfare; iTutor Age Discrimination Case; Computer-aided detection (CAD) software for tuberculosis screening in South Africa"
+    ],
+
+    [
+      "Classification tasks (speech/voice/age recognition)",
+      "Epistemic injustice (all types)",
+      2,
+      "<b>Total cases: 2</b><br/>IRS Random Audit Bias; Biases found in Synthetic or Pseudo Data and Data Feedback Loops"
+    ],
+
+    [
+      "Classification tasks (speech/voice/age recognition)",
+      "Privacy & surveillance concerns",
+      2,
+      "<b>Total cases: 2</b><br/>clearview AI, NYPD Misuse of Facial Recognition; AI in EU Asylum Procedures"
+    ],
+
+    [
+      "Natural Language Processing",
+      "Disparate impact across social groups",
+      2,
+      "<b>Total cases: 2</b><br/>AI Medical Scribes: From Burnout Relief to Revenue Optimization; Turnitin AI Detection"
+    ],
+
+    [
+      "Natural Language Processing",
+      "Epistemic injustice (all types)",
+      1,
+      "<b>Total cases: 1</b><br/>Bhashini: India's National translation platform"
+    ],
+
+    [
+      "Algorithms (optimization)",
+      "Disparate impact across social groups",
+      3,
+      "<b>Total cases: 3</b><br/>AI-Based College Admissions Screening; Kidney Function Estimates; AI for Diabetic Retinopathy"
+    ],
+
+    [
+      "LLM & chatbots",
+      "Disparate impact across social groups",
+      1,
+      "<b>Total cases: 1</b><br/>Google's Gemma Downplaying Women's Health Issues"
+    ],
+
+    [
+      "LLM & chatbots",
+      "Epistemic injustice (all types)",
+      1,
+      "<b>Total cases: 1</b><br/>Claude Interviewer Tool for Research"
+    ],
+
+    [
+      "Embodied systems (autonomous driving)",
+      "Privacy & surveillance concerns",
+      2,
+      "<b>Total cases: 2</b><br/>AI-Powered Infrastructure Surveillance Bias; Proctorio exam proctoring"
+    ],
+
+    [
+      "Generative AI",
+      "Disparate impact across social groups",
+      1,
+      "<b>Total cases: 1</b><br/>AI Bias in Power Systems Domain"
+    ],
+
+    [
+      "Benchmarking",
+      "Disparate impact across social groups",
+      1,
+      "<b>Total cases: 1</b><br/>Auditing the audits': takeaways from analyzing NYC's Local Law 144 bias audits"
+    ]
+
+    // Zero-weight Level 1 row omitted:
+    // Public Sphere -> Recommendation systems: 0
+  ];
+  var internet_society = [
+    // =====================================================
+    // Level 1: Internet Society -> AI use
+    // =====================================================
+
+    [
+      "Internet Society",
       "Classification tasks (speech/voice/age recognition)",
       1,
       "<b>Total cases: 1</b><br/>AI-based Age verification algorithm"
     ],
 
     [
-      "Social media, sports, entertainment, platforms, cultural representatio, content moderation, journalism",
+      "Internet Society",
       "Natural Language Processing",
       3,
       "<b>Total cases: 3</b><br/>Global South Disparities in Automated Content Moderation Systems; Hate speech misclassification; Racial Bias in Hate Speech and Abusive Language Detection"
     ],
 
     [
-      "Social media, sports, entertainment, platforms, cultural representatio, content moderation, journalism",
+      "Internet Society",
       "LLM & chatbots",
       2,
       "<b>Total cases: 2</b><br/>AI Singapore and SEALION: LLMs in low resource Southeast Asian languages; Resurrecting the Dead: AI Consent Implications"
     ],
 
     [
-      "Social media, sports, entertainment, platforms, cultural representatio, content moderation, journalism",
+      "Internet Society",
       "Embodied systems (autonomous driving)",
       1,
       "<b>Total cases: 1</b><br/>AI in Tennis: Hawk-Eye"
     ],
 
     [
-      "Social media, sports, entertainment, platforms, cultural representatio, content moderation, journalism",
+      "Internet Society",
       "Recommendation systems",
       5,
       "<b>Total cases: 5</b><br/>Spotify’s Recommendation System; Bias in Dating apps; AI & Sports Betting Addiction; Fairness in Tik Tok's Recommender Algorithm; YouTube Recommendation Algorithm: Fairness Implications"
     ],
 
     [
-      "Social media, sports, entertainment, platforms, cultural representatio, content moderation, journalism",
+      "Internet Society",
       "Generative AI",
       2,
       "<b>Total cases: 2</b><br/>AI-generated Art/Music; AI Face-Swap Apps & Consent Transparency"
@@ -298,272 +368,11 @@
       "Privacy & surveillance concerns",
       1,
       "<b>Total cases: 1</b><br/>AI Face-Swap Apps & Consent Transparency"
-    ]];
-    var edu = [
-    // =====================================================
-    // Level 1: Education & academia -> AI use
-    // =====================================================
-
-    [
-      "Education & academia",
-      "Classification tasks (speech/voice/age recognition)",
-      2,
-      "<b>Total cases: 2</b><br/>iTutor Age Discrimination Case; Biases found in Synthetic or Pseudo Data and Data Feedback Loops"
-    ],
-
-    [
-      "Education & academia",
-      "Natural Language Processing",
-      1,
-      "<b>Total cases: 1</b><br/>Turnitin AI Detection"
-    ],
-
-    [
-      "Education & academia",
-      "Algorithms (optimization)",
-      2,
-      "<b>Total cases: 2</b><br/>AI-Based College Admissions Screening; Kidney Function Estimates"
-    ],
-
-    [
-      "Education & academia",
-      "LLM & chatbots",
-      1,
-      "<b>Total cases: 1</b><br/>Claude Interviewer Tool for Research"
-    ],
-
-    [
-      "Education & academia",
-      "Embodied systems (autonomous driving)",
-      1,
-      "<b>Total cases: 1</b><br/>Proctorio exam proctoring"
-    ],
-
-
-    // =====================================================
-    // Level 2: AI use -> fairness issue
-    // =====================================================
-
-    [
-      "Classification tasks (speech/voice/age recognition)",
-      "Disparate impact across social groups",
-      1,
-      "<b>Total cases: 1</b><br/>iTutor Age Discrimination Case"
-    ],
-
-    [
-      "Classification tasks (speech/voice/age recognition)",
-      "Epistemic injustice (all types)",
-      1,
-      "<b>Total cases: 1</b><br/>Biases found in Synthetic or Pseudo Data and Data Feedback Loops"
-    ],
-
-    [
-      "Natural Language Processing",
-      "Disparate impact across social groups",
-      1,
-      "<b>Total cases: 1</b><br/>Turnitin AI Detection"
-    ],
-
-    [
-      "Algorithms (optimization)",
-      "Disparate impact across social groups",
-      2,
-      "<b>Total cases: 2</b><br/>AI-Based College Admissions Screening; Kidney Function Estimates"
-    ],
-
-    [
-      "LLM & chatbots",
-      "Epistemic injustice (all types)",
-      1,
-      "<b>Total cases: 1</b><br/>Claude Interviewer Tool for Research"
-    ],
-
-    [
-      "Embodied systems (autonomous driving)",
-      "Privacy & surveillance concerns",
-      1,
-      "<b>Total cases: 1</b><br/>Proctorio exam proctoring"
     ]
 
-    // Zero-weight Level 1 rows omitted from data.addRows because
-    // Google Sankey works best with positive-weight links only:
-    //
-    // Education & academia -> Recommendation systems: 0
-    // Education & academia -> Generative AI: 0
+    // Zero-weight Level 1 row omitted:
+    // Internet Society -> Algorithms (optimization): 0
   ];
-
-  var health = [
-    // =====================================================
-    // Level 1: Healthcare & diagnostics -> AI use
-    // =====================================================
-
-    [
-      "Healthcare & diagnostics",
-      "Classification tasks (speech/voice/age recognition)",
-      1,
-      "<b>Total cases: 1</b><br/>Computer-aided detection (CAD) software for tuberculosis screening in South Africa"
-    ],
-
-    [
-      "Healthcare & diagnostics",
-      "Natural Language Processing",
-      1,
-      "<b>Total cases: 1</b><br/>AI Medical Scribes: From Burnout Relief to Revenue Optimization"
-    ],
-
-    [
-      "Healthcare & diagnostics",
-      "Algorithms (optimization)",
-      1,
-      "<b>Total cases: 1</b><br/>AI for Diabetic Retinopathy"
-    ],
-
-    [
-      "Healthcare & diagnostics",
-      "LLM & chatbots",
-      1,
-      "<b>Total cases: 1</b><br/>Google's Gemma Downplaying Women's Health Issues"
-    ],
-
-
-    // =====================================================
-    // Level 2: AI use -> fairness issue
-    // =====================================================
-
-    [
-      "Classification tasks (speech/voice/age recognition)",
-      "Disparate impact across social groups",
-      1,
-      "<b>Total cases: 1</b><br/>Computer-aided detection (CAD) software for tuberculosis screening in South Africa"
-    ],
-
-    [
-      "Natural Language Processing",
-      "Disparate impact across social groups",
-      1,
-      "<b>Total cases: 1</b><br/>AI Medical Scribes: From Burnout Relief to Revenue Optimization"
-    ],
-
-    [
-      "Algorithms (optimization)",
-      "Disparate impact across social groups",
-      1,
-      "<b>Total cases: 1</b><br/>AI for Diabetic Retinopathy"
-    ],
-
-    [
-      "LLM & chatbots",
-      "Disparate impact across social groups",
-      1,
-      "<b>Total cases: 1</b><br/>Google's Gemma Downplaying Women's Health Issues"
-    ]
-
-    // Zero-weight Level 1 rows omitted:
-    // Healthcare & diagnostics -> Embodied systems (autonomous driving): 0
-    // Healthcare & diagnostics -> Recommendation systems: 0
-    // Healthcare & diagnostics -> Generative AI: 0
-  ];
-  var gov = [
-    // =====================================================
-    // Level 1: Government, infrastructure management, social welfare -> AI use
-    // =====================================================
-
-    [
-      "Government, infrastructure management, social welfare",
-      "Classification tasks (speech/voice/age recognition)",
-      4,
-      "<b>Total cases: 4</b><br/>IRS Random Audit Bias; AI in Child Welfare; clearview AI, NYPD Misuse of Facial Recognition; AI in EU Asylum Procedures"
-    ],
-
-    [
-      "Government, infrastructure management, social welfare",
-      "Natural Language Processing",
-      1,
-      "<b>Total cases: 1</b><br/>Bhashini: India's National translation platform"
-    ],
-
-    [
-      "Government, infrastructure management, social welfare",
-      "Embodied systems (autonomous driving)",
-      1,
-      "<b>Total cases: 1</b><br/>AI-Powered Infrastructure Surveillance Bias"
-    ],
-
-    [
-      "Government, infrastructure management, social welfare",
-      "Generative AI",
-      1,
-      "<b>Total cases: 1</b><br/>AI Bias in Power Systems Domain"
-    ],
-
-    [
-      "Government, infrastructure management, social welfare",
-      "Benchmarking",
-      1,
-      "<b>Total cases: 1</b><br/>Auditing the audits': takeaways from analyzing NYC's Local Law 144 bias audits"
-    ],
-
-
-    // =====================================================
-    // Level 2: AI use -> fairness issue
-    // =====================================================
-
-    [
-      "Classification tasks (speech/voice/age recognition)",
-      "Epistemic injustice (all types)",
-      1,
-      "<b>Total cases: 1</b><br/>IRS Random Audit Bias"
-    ],
-
-    [
-      "Classification tasks (speech/voice/age recognition)",
-      "Disparate impact across social groups",
-      1,
-      "<b>Total cases: 1</b><br/>AI in Child Welfare"
-    ],
-
-    [
-      "Classification tasks (speech/voice/age recognition)",
-      "Privacy & surveillance concerns",
-      2,
-      "<b>Total cases: 2</b><br/>clearview AI, NYPD Misuse of Facial Recognition; AI in EU Asylum Procedures"
-    ],
-
-    [
-      "Natural Language Processing",
-      "Epistemic injustice (all types)",
-      1,
-      "<b>Total cases: 1</b><br/>Bhashini: India's National translation platform"
-    ],
-
-    [
-      "Embodied systems (autonomous driving)",
-      "Privacy & surveillance concerns",
-      1,
-      "<b>Total cases: 1</b><br/>AI-Powered Infrastructure Surveillance Bias"
-    ],
-
-    [
-      "Generative AI",
-      "Disparate impact across social groups",
-      1,
-      "<b>Total cases: 1</b><br/>AI Bias in Power Systems Domain"
-    ],
-
-    [
-      "Benchmarking",
-      "Disparate impact across social groups",
-      1,
-      "<b>Total cases: 1</b><br/>Auditing the audits': takeaways from analyzing NYC's Local Law 144 bias audits"
-    ]
-
-    // Zero-weight Level 1 rows omitted:
-    // Government, infrastructure management, social welfare -> Algorithms (optimization): 0
-    // Government, infrastructure management, social welfare -> LLM & chatbots: 0
-    // Government, infrastructure management, social welfare -> Recommendation systems: 0
-  ];
-    
 
       var AI_USE_SOURCE_MARKERS = [
         'Classification tasks',
@@ -619,10 +428,60 @@
         return fairnessMap;
       }
 
+      function getAiUseDestCountsFromLevel1(dataset) {
+        var map = {};
+        for (var i = 0; i < dataset.length; i++) {
+          var source = dataset[i][0];
+          var dest = dataset[i][1];
+          var weight = dataset[i][2];
+          if (!isLevel2SankeyLink(source)) {
+            map[dest] = (map[dest] || 0) + weight;
+          }
+        }
+        return map;
+      }
+
+      function tooltipTitleLevel1(industryName, useCaseName) {
+        return 'Mapping from ' + industryName + ' to AI use case of ' + useCaseName;
+      }
+
+      function tooltipTitleLevel2(fairnessIssueName) {
+        return 'Mapping from AI use case to AI fairness issue of ' + fairnessIssueName;
+      }
+
+      function prependTooltipTitle(html, titleText) {
+        var titleHtml =
+          '<div style="font-size:12px;margin-bottom:8px;line-height:1.35;"><b>' +
+          titleText.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') +
+          '</b></div>';
+        return titleHtml + (html || '');
+      }
+
       /**
-       * Level-2 destinations become "Name (count, pct%)" where pct is share of all level-2 weights.
+       * Level 1: AI-use destinations get "(count, pct%)" of level-1 flow; tooltips get mapping title.
+       * Level 2: fairness destinations get "(count, pct%)" of level-2 flow; sources use augmented AI
+       * labels; tooltips get mapping title.
        */
       function augmentSankeyDatasetWithFairnessStats(dataset) {
+        var aiWeights = getAiUseDestCountsFromLevel1(dataset);
+        var totalL1 = 0;
+        for (var k in aiWeights) {
+          if (Object.prototype.hasOwnProperty.call(aiWeights, k)) {
+            totalL1 += aiWeights[k];
+          }
+        }
+        if (totalL1 <= 0) {
+          totalL1 = 1;
+        }
+
+        var aiUseRename = {};
+        for (var useName in aiWeights) {
+          if (!Object.prototype.hasOwnProperty.call(aiWeights, useName)) continue;
+          var c1 = aiWeights[useName];
+          var p1 = Math.round((c1 / totalL1) * 100);
+          aiUseRename[useName] = useName + ' (' + c1 + ', ' + p1 + '%)';
+        }
+
         var fairnessMap = getFairnessIssuesWithCounts(dataset);
         var totalL2 = 0;
         for (var i = 0; i < dataset.length; i++) {
@@ -634,18 +493,33 @@
           totalL2 = 1;
         }
 
-        var destRename = {};
-        for (var name in fairnessMap) {
-          if (!Object.prototype.hasOwnProperty.call(fairnessMap, name)) continue;
-          var c = fairnessMap[name];
-          var pct = Math.round((c / totalL2) * 100);
-          destRename[name] = name + ' (' + c + ', ' + pct + '%)';
+        var fairnessRename = {};
+        for (var fname in fairnessMap) {
+          if (!Object.prototype.hasOwnProperty.call(fairnessMap, fname)) continue;
+          var c2 = fairnessMap[fname];
+          var p2 = Math.round((c2 / totalL2) * 100);
+          fairnessRename[fname] = fname + ' (' + c2 + ', ' + p2 + '%)';
         }
 
         return dataset.map(function(row) {
           var r = row.slice();
-          if (isLevel2SankeyLink(r[0]) && destRename[r[1]]) {
-            r[1] = destRename[r[1]];
+          var src = r[0];
+          var dst = r[1];
+          var tip = r[3];
+
+          if (!isLevel2SankeyLink(src)) {
+            if (aiUseRename[dst]) {
+              r[1] = aiUseRename[dst];
+              r[3] = prependTooltipTitle(tip, tooltipTitleLevel1(src, dst));
+            }
+          } else {
+            if (aiUseRename[src]) {
+              r[0] = aiUseRename[src];
+            }
+            if (fairnessRename[dst]) {
+              r[1] = fairnessRename[dst];
+            }
+            r[3] = prependTooltipTitle(tip, tooltipTitleLevel2(dst));
           }
           return r;
         });
@@ -890,20 +764,16 @@
       }
 
       function drawAllCharts() {
-        // Set subtitles with total cases
-        document.getElementById('subtitle_hl').textContent = 'Total cases: ' + getTotalCases(hl);
-        document.getElementById('subtitle_edu').textContent = 'Total cases: ' + getTotalCases(edu);
-        document.getElementById('subtitle_gov').textContent = 'Total cases: ' + getTotalCases(gov);
-        document.getElementById('subtitle_health').textContent = 'Total cases: ' + getTotalCases(health);
-        document.getElementById('subtitle_soc_media').textContent = 'Total cases: ' + getTotalCases(soc_media);
-        document.getElementById('subtitle_rev').textContent = 'Total cases: ' + getTotalCases(rev);
-        
-        drawSankey(hl, 'chart_hl');
-        drawSankey(edu, 'chart_edu');
-        drawSankey(gov, 'chart_gov');
-        drawSankey(health, 'chart_health');
-        drawSankey(soc_media, 'chart_soc_media');
-        drawSankey(rev, 'chart_rev');
+        document.getElementById('subtitle_corporate_america').textContent =
+          'Total cases: ' + getTotalCases(corporate_america);
+        document.getElementById('subtitle_public_sphere').textContent =
+          'Total cases: ' + getTotalCases(public_sphere);
+        document.getElementById('subtitle_internet_society').textContent =
+          'Total cases: ' + getTotalCases(internet_society);
+
+        drawSankey(corporate_america, 'chart_corporate_america');
+        drawSankey(public_sphere, 'chart_public_sphere');
+        drawSankey(internet_society, 'chart_internet_society');
       }
     </script>
 
@@ -1001,43 +871,25 @@
 
   <body>
     <div class="container">
-      <h1>AI Fairness Issues Across Industries</h1>
-      
+      <h1>AI Fairness Issues by Societal Domain</h1>
+
       <div class="charts-grid">
         <div class="chart-item">
-          <div class="chart-label">Health & Labor</div>
-          <div class="chart-subtitle" id="subtitle_hl"></div>
-          <div id="chart_hl" class="chart-container"></div>
+          <div class="chart-label">Corporate America</div>
+          <div class="chart-subtitle" id="subtitle_corporate_america"></div>
+          <div id="chart_corporate_america" class="chart-container"></div>
         </div>
 
         <div class="chart-item">
-          <div class="chart-label">Education & Academia</div>
-          <div class="chart-subtitle" id="subtitle_edu"></div>
-          <div id="chart_edu" class="chart-container"></div>
+          <div class="chart-label">Public Sphere</div>
+          <div class="chart-subtitle" id="subtitle_public_sphere"></div>
+          <div id="chart_public_sphere" class="chart-container"></div>
         </div>
 
         <div class="chart-item">
-          <div class="chart-label">Government, Infrastructure Management, & Social Welfare</div>
-          <div class="chart-subtitle" id="subtitle_gov"></div>
-          <div id="chart_gov" class="chart-container"></div>
-        </div>
-
-        <div class="chart-item">
-          <div class="chart-label">Healthcare & Diagnostics</div>
-          <div class="chart-subtitle" id="subtitle_health"></div>
-          <div id="chart_health" class="chart-container"></div>
-        </div>
-
-        <div class="chart-item">
-          <div class="chart-label">Social Media, Content Moderation, Entertainment, Sports</div>
-          <div class="chart-subtitle" id="subtitle_soc_media"></div>
-          <div id="chart_soc_media" class="chart-container"></div>
-        </div>
-
-        <div class="chart-item">
-          <div class="chart-label">Company Revenue Generation</div>
-          <div class="chart-subtitle" id="subtitle_rev"></div>
-          <div id="chart_rev" class="chart-container"></div>
+          <div class="chart-label">Internet Society</div>
+          <div class="chart-subtitle" id="subtitle_internet_society"></div>
+          <div id="chart_internet_society" class="chart-container"></div>
         </div>
       </div>
     </div>
