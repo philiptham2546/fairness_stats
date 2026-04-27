@@ -2,7 +2,7 @@
   <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-      google.charts.load('current', {'packages':['sankey']});
+      google.charts.load('current', {'packages': ['sankey', 'corechart']});
       google.charts.setOnLoadCallback(drawAllCharts);
   var corporate_america = [
     // =====================================================
@@ -763,7 +763,124 @@
         chart.draw(data, options);
       }
 
+      function drawOverviewPies() {
+        var pieColors = ['#3498db', '#2ecc71', '#e74c3c', '#9b59b6', '#f39c12', '#1abc9c', '#34495e', '#e67e22'];
+
+        function pieCardWidth(containerId) {
+          var el = document.getElementById(containerId);
+          var card = el && el.closest('.pie-card');
+          if (!card) return 280;
+          var w = Math.floor(card.getBoundingClientRect().width - 20);
+          return Math.max(180, w);
+        }
+
+        var pieW = pieCardWidth('pie_industry_clusters');
+        var pieH = Math.round(pieW * 0.82);
+
+        function renderAiUseCasesLegendGrid(elId, rows, colors) {
+          var el = document.getElementById(elId);
+          if (!el) return;
+          el.textContent = '';
+          el.setAttribute('role', 'list');
+          el.setAttribute('aria-label', 'AI use case legend');
+          for (var i = 0; i < 9; i++) {
+            var cell = document.createElement('div');
+            if (i < rows.length) {
+              cell.className = 'pie-ai-legend-item';
+              cell.setAttribute('role', 'listitem');
+              var sw = document.createElement('span');
+              sw.className = 'pie-ai-legend-swatch';
+              sw.style.background = colors[i % colors.length];
+              var textWrap = document.createElement('span');
+              textWrap.className = 'pie-ai-legend-text';
+              var lab = document.createElement('span');
+              lab.className = 'pie-ai-legend-label';
+              lab.textContent = rows[i][0];
+              var cnt = document.createElement('span');
+              cnt.className = 'pie-ai-legend-count';
+              cnt.textContent = ' (' + rows[i][1] + ')';
+              textWrap.appendChild(lab);
+              textWrap.appendChild(cnt);
+              cell.appendChild(sw);
+              cell.appendChild(textWrap);
+            } else {
+              cell.className = 'pie-ai-legend-item pie-ai-legend-item--empty';
+              cell.setAttribute('aria-hidden', 'true');
+            }
+            el.appendChild(cell);
+          }
+        }
+
+        function drawPie(containerId, rows, opts) {
+          opts = opts || {};
+          var data = new google.visualization.DataTable();
+          data.addColumn('string', 'Label');
+          data.addColumn('number', 'Count');
+          data.addRows(rows);
+          var w = opts.width != null ? opts.width : pieW;
+          var h = opts.height != null ? opts.height : pieH;
+          var legendOpts = {
+            position: opts.legendPosition || 'right',
+            alignment: 'center',
+            textStyle: { fontSize: opts.legendFontSize || 10, color: '#2c3e50' }
+          };
+          if (opts.legendPosition === 'none') {
+            legendOpts = { position: 'none' };
+          } else if (opts.legendMaxLines != null) {
+            legendOpts.maxLines = opts.legendMaxLines;
+          }
+          var options = {
+            width: w,
+            height: h,
+            colors: pieColors,
+            chartArea: opts.chartArea || { left: 8, top: 10, width: '94%', height: '82%' },
+            legend: legendOpts,
+            pieSliceText: 'percentage',
+            pieSliceTextStyle: { fontSize: 10, color: '#fff' },
+            tooltip: { text: 'both' },
+            backgroundColor: 'transparent'
+          };
+          var chart = new google.visualization.PieChart(document.getElementById(containerId));
+          chart.draw(data, options);
+        }
+
+        drawPie('pie_industry_clusters', [
+          ['Corporate America', 19],
+          ['Public Sphere', 25],
+          ['Internet Society', 14]
+        ], { width: pieW, height: pieH });
+
+        var aiCardW = pieCardWidth('pie_ai_use_cases');
+        var aiChartH = Math.max(260, Math.round(aiCardW * 0.78));
+        var aiRows = [
+          ['LLM & chatbots', 8],
+          ['Classification tasks (speech/voice/age recognition)', 19],
+          ['Embodied systems (autonomous driving)', 4],
+          ['Benchmarking', 1],
+          ['Algorithms (optimization)', 10],
+          ['Recommendation systems', 7],
+          ['Natural Language Processing', 10],
+          ['Generative AI', 5]
+        ];
+        drawPie('pie_ai_use_cases', aiRows, {
+          width: aiCardW,
+          height: aiChartH,
+          legendPosition: 'none',
+          chartArea: { left: '6%', top: '6%', width: '88%', height: '88%' }
+        });
+        renderAiUseCasesLegendGrid('pie_ai_use_cases_legend', aiRows, pieColors);
+
+        drawPie('pie_fairness_issues', [
+          ['Epistemic injustice', 10],
+          ['Disparate impact across social groups', 35],
+          ['Balancing between different concepts of fairness', 5],
+          ['Privacy & surveillance concerns', 11]
+        ], { width: pieW, height: pieH });
+      }
+
       function drawAllCharts() {
+        drawOverviewPies();
+
         document.getElementById('subtitle_corporate_america').textContent =
           'Total cases: ' + getTotalCases(corporate_america);
         document.getElementById('subtitle_public_sphere').textContent =
@@ -775,26 +892,166 @@
         drawSankey(public_sphere, 'chart_public_sphere');
         drawSankey(internet_society, 'chart_internet_society');
       }
+
+      var overviewPieResizeTimer;
+      window.addEventListener('resize', function () {
+        clearTimeout(overviewPieResizeTimer);
+        overviewPieResizeTimer = setTimeout(function () {
+          if (typeof google !== 'undefined' && google.visualization) {
+            drawOverviewPies();
+          }
+        }, 200);
+      });
     </script>
 
     <style>
       body {
         font-family: 'Helvetica Neue', Arial, sans-serif;
-        padding: 40px;
+        padding: 40px 16px;
         background-color: #f9f9f9;
+        box-sizing: border-box;
+        overflow-x: hidden;
       }
 
       .container {
         background: white;
-        padding: 30px;
+        padding: 30px 16px;
         border-radius: 15px;
         box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        max-width: 100%;
+        box-sizing: border-box;
       }
 
       h1 {
         color: #2c3e50;
         text-align: center;
         margin-bottom: 40px;
+      }
+
+      .page-section {
+        margin-bottom: 48px;
+      }
+
+      .page-section:last-of-type {
+        margin-bottom: 0;
+      }
+
+      .section-title {
+        font-size: 1.35rem;
+        font-weight: 600;
+        color: #2c3e50;
+        text-align: center;
+        margin: 0 0 28px;
+        line-height: 1.35;
+        padding: 0 12px;
+      }
+
+      .pie-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+        align-items: start;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+
+      .pie-card {
+        background: #f5f5f5;
+        padding: 16px 10px 20px;
+        border-radius: 10px;
+        border: 1px solid #e0e0e0;
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+
+      .pie-chart-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #2c3e50;
+        text-align: center;
+        line-height: 1.4;
+        margin-bottom: 12px;
+        min-height: 2.8em;
+      }
+
+      .pie-chart-host {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 260px;
+        max-width: 100%;
+        overflow: hidden;
+        box-sizing: border-box;
+      }
+
+      .pie-chart-host > div {
+        max-width: 100%;
+      }
+
+      .pie-chart-host--use-cases {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        gap: 12px;
+        min-height: 0;
+        overflow: visible;
+      }
+
+      .pie-chart-host--use-cases > div:first-child {
+        width: 100%;
+        max-width: 100%;
+        flex-shrink: 0;
+      }
+
+      .pie-ai-legend-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-rows: repeat(3, minmax(0, auto));
+        gap: 10px 10px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .pie-ai-legend-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 6px;
+        min-width: 0;
+        font-size: 10px;
+        line-height: 1.35;
+        color: #2c3e50;
+      }
+
+      .pie-ai-legend-item--empty {
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .pie-ai-legend-swatch {
+        width: 11px;
+        height: 11px;
+        border-radius: 2px;
+        flex-shrink: 0;
+        margin-top: 2px;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+      }
+
+      .pie-ai-legend-text {
+        min-width: 0;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+      }
+
+      .pie-ai-legend-label {
+        font-weight: 500;
+      }
+
+      .pie-ai-legend-count {
+        color: #7f8c8d;
+        font-weight: 400;
+        white-space: nowrap;
       }
 
       .charts-grid {
@@ -861,6 +1118,12 @@
         max-width: 400px !important;
       }
 
+      @media (max-width: 1200px) {
+        .pie-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
       @media (max-width: 1400px) {
         .charts-grid {
           grid-template-columns: 1fr;
@@ -873,25 +1136,53 @@
     <div class="container">
       <h1>AI Fairness Issues by Societal Domain</h1>
 
-      <div class="charts-grid">
-        <div class="chart-item">
-          <div class="chart-label">Corporate America</div>
-          <div class="chart-subtitle" id="subtitle_corporate_america"></div>
-          <div id="chart_corporate_america" class="chart-container"></div>
+      <section class="page-section" aria-labelledby="section-overview-heading">
+        <h2 id="section-overview-heading" class="section-title">Overall breakdown of AI in the World presentations</h2>
+        <div class="pie-grid">
+          <div class="pie-card">
+            <div class="pie-chart-title">Industry clusters where AI fairness issues have been raised</div>
+            <div class="pie-chart-host">
+              <div id="pie_industry_clusters"></div>
+            </div>
+          </div>
+          <div class="pie-card">
+            <div class="pie-chart-title">AI use cases where AI fairness issues have been raised</div>
+            <div class="pie-chart-host pie-chart-host--use-cases">
+              <div id="pie_ai_use_cases"></div>
+              <div id="pie_ai_use_cases_legend" class="pie-ai-legend-grid"></div>
+            </div>
+          </div>
+          <div class="pie-card">
+            <div class="pie-chart-title">Breakdown of AI fairness issues identified</div>
+            <div class="pie-chart-host">
+              <div id="pie_fairness_issues"></div>
+            </div>
+          </div>
         </div>
+      </section>
 
-        <div class="chart-item">
-          <div class="chart-label">Public Sphere</div>
-          <div class="chart-subtitle" id="subtitle_public_sphere"></div>
-          <div id="chart_public_sphere" class="chart-container"></div>
-        </div>
+      <section class="page-section" aria-labelledby="section-sankey-heading">
+        <h2 id="section-sankey-heading" class="section-title">Sankey diagrams showing the relationship between industry, AI use case, and fairness issue</h2>
+        <div class="charts-grid">
+          <div class="chart-item">
+            <div class="chart-label">Corporate America</div>
+            <div class="chart-subtitle" id="subtitle_corporate_america"></div>
+            <div id="chart_corporate_america" class="chart-container"></div>
+          </div>
 
-        <div class="chart-item">
-          <div class="chart-label">Internet Society</div>
-          <div class="chart-subtitle" id="subtitle_internet_society"></div>
-          <div id="chart_internet_society" class="chart-container"></div>
+          <div class="chart-item">
+            <div class="chart-label">Public Sphere</div>
+            <div class="chart-subtitle" id="subtitle_public_sphere"></div>
+            <div id="chart_public_sphere" class="chart-container"></div>
+          </div>
+
+          <div class="chart-item">
+            <div class="chart-label">Internet Society</div>
+            <div class="chart-subtitle" id="subtitle_internet_society"></div>
+            <div id="chart_internet_society" class="chart-container"></div>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   </body>
 </html>
