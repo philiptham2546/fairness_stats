@@ -1,0 +1,123 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['sankey']});
+      google.charts.setOnLoadCallback(drawAllCharts);
+
+      function drawAllCharts() {
+        // 1. DATA DEFINITIONS
+        var hl = [
+          ['Housing & Labor', 'Classification tasks', 4, '<b>Total cases: 4 (36.4%)</b><br/>Amazon resume; 2025-2026 Workday AI Hiring Lawsuit; SafeRent Tenant Screening Algorithm; AI Racial Bias in Mortgage Lending'],
+          ['Housing & Labor', 'Natural Language Processing', 2, '<b>Total cases: 2 (18.2%)</b><br/>Amazon resume; HireVue\'s Use of AI in Interviews'],
+          ['Housing & Labor', 'Algorithms (optimization)', 4, '<b>Total cases: 4 (36.4%)</b><br/>Bossware and Bias; RealPage: dynamic rent-setting algorithms; Algorithmic Rent Pricing; AI based workplace management at Amazon'],
+          ['Housing & Labor', 'LLM & chatbots', 1, '<b>Total cases: 1 (9.1%)</b><br/>UC Berkeley BearGPT'],
+          ['Housing & Labor', 'Embodied systems', 0.1, '<b>0 cases</b>'], ['Housing & Labor', 'Benchmarking', 0.1, '<b>0 cases</b>'], ['Housing & Labor', 'Recommendation systems', 0.1, '<b>0 cases</b>'], ['Housing & Labor', 'Generative AI', 0.1, '<b>0 cases</b>']
+        ];
+
+        var rev = [
+          ['Revenue Generation', 'Classification tasks', 3, '<b>Total cases: 3 (30%)</b><br/>2019 Apple Card Bias Case; AI in insurance claim review; Uber Driver Fraud Detection'],
+          ['Revenue Generation', 'Natural Language Processing', 1, '<b>Total cases: 1 (10%)</b><br/>Algorithmic Case Sourcing (Legal)'],
+          ['Revenue Generation', 'Algorithms (optimization)', 3, '<b>Total cases: 3 (30%)</b><br/>Algorithmic Case Sourcing; BNPL; AI Dynamic Pricing in Airlines'],
+          ['Revenue Generation', 'LLM & chatbots', 1, '<b>Total cases: 1 (10%)</b><br/>How Businesses Are Manipulating ChatGPT Results'],
+          ['Revenue Generation', 'Recommendation systems', 2, '<b>Total cases: 2 (20%)</b><br/>Meta AI ad system; Instacart\'s dynamic pricing'],
+          ['Revenue Generation', 'Embodied systems', 0.1, '<b>0 cases</b>'], ['Revenue Generation', 'Benchmarking', 0.1, '<b>0 cases</b>'], ['Revenue Generation', 'Generative AI', 0.1, '<b>0 cases</b>']
+        ];
+
+        var soc_media = [
+          ['Social Media & Ent.', 'Classification tasks', 1, '<b>Total cases: 1 (7.1%)</b><br/>AI-based Age verification algorithm'],
+          ['Social Media & Ent.', 'Natural Language Processing', 3, '<b>Total cases: 3 (21.4%)</b><br/>Global South Disparities; Hate speech misclassification; Racial Bias in Hate Speech Detection'],
+          ['Social Media & Ent.', 'LLM & chatbots', 2, '<b>Total cases: 2 (14.3%)</b><br/>AI Singapore and SEALION; Resurrecting the Dead'],
+          ['Social Media & Ent.', 'Embodied systems', 1, '<b>Total cases: 1 (7.1%)</b><br/>AI in Tennis: Hawk-Eye'],
+          ['Social Media & Ent.', 'Recommendation systems', 5, '<b>Total cases: 5 (35.7%)</b><br/>Spotify; Bias in Dating apps; AI & Sports Betting; TikTok Fairness; YouTube Recommendation'],
+          ['Social Media & Ent.', 'Generative AI', 2, '<b>Total cases: 2 (14.3%)</b><br/>AI-generated Art/Music; AI Face-Swap Apps'],
+          ['Social Media & Ent.', 'Algorithms (optimization)', 0.1, '<b>0 cases</b>'], ['Social Media & Ent.', 'Benchmarking', 0.1, '<b>0 cases</b>']
+        ];
+
+        var edu = [
+          ['Education', 'Classification tasks', 2, '<b>Total cases: 2 (28.6%)</b><br/>iTutor Age Discrimination; Biases in Synthetic Data'],
+          ['Education', 'Natural Language Processing', 1, '<b>Total cases: 1 (14.3%)</b><br/>Turnitin AI Detection'],
+          ['Education', 'Algorithms (optimization)', 2, '<b>Total cases: 2 (28.6%)</b><br/>AI-Based College Admissions; Kidney Function Estimates'],
+          ['Education', 'LLM & chatbots', 1, '<b>Total cases: 1 (14.3%)</b><br/>Claude Interviewer Tool'],
+          ['Education', 'Embodied systems', 1, '<b>Total cases: 1 (14.3%)</b><br/>Proctorio exam proctoring'],
+          ['Education', 'Benchmarking', 0.1, '<b>0 cases</b>'], ['Education', 'Recommendation systems', 0.1, '<b>0 cases</b>'], ['Education', 'Generative AI', 0.1, '<b>0 cases</b>']
+        ];
+
+        var health = [
+          ['Healthcare', 'Classification tasks', 1, '<b>Total cases: 1 (25%)</b><br/>TB screening in South Africa'],
+          ['Healthcare', 'Natural Language Processing', 1, '<b>Total cases: 1 (25%)</b><br/>AI Medical Scribes'],
+          ['Healthcare', 'Algorithms (optimization)', 1, '<b>Total cases: 1 (25%)</b><br/>AI for Diabetic Retinopathy'],
+          ['Healthcare', 'LLM & chatbots', 1, '<b>Total cases: 1 (25%)</b><br/>Google\'s Gemma Downplaying Women\'s Health'],
+          ['Healthcare', 'Embodied systems', 0.1, '<b>0 cases</b>'], ['Healthcare', 'Benchmarking', 0.1, '<b>0 cases</b>'], ['Healthcare', 'Recommendation systems', 0.1, '<b>0 cases</b>'], ['Healthcare', 'Generative AI', 0.1, '<b>0 cases</b>']
+        ];
+
+        var gov = [
+          ['Government', 'Classification tasks', 4, '<b>Total cases: 4 (50%)</b><br/>IRS Audit Bias; Child Welfare; Clearview AI/NYPD; EU Asylum Procedures'],
+          ['Government', 'Natural Language Processing', 1, '<b>Total cases: 1 (12.5%)</b><br/>Bhashini: India Translation'],
+          ['Government', 'Embodied systems', 1, '<b>Total cases: 1 (12.5%)</b><br/>Infrastructure Surveillance Bias'],
+          ['Government', 'Benchmarking', 1, '<b>Total cases: 1 (12.5%)</b><br/>NYC Local Law 144 audits'],
+          ['Government', 'Generative AI', 1, '<b>Total cases: 1 (12.5%)</b><br/>AI Bias in Power Systems'],
+          ['Government', 'Algorithms (optimization)', 0.1, '<b>0 cases</b>'], ['Government', 'LLM & chatbots', 0.1, '<b>0 cases</b>'], ['Government', 'Recommendation systems', 0.1, '<b>0 cases</b>']
+        ];
+
+        // 2. HELPER TO DRAW INDIVIDUAL CHARTS
+        function renderSankey(containerId, dataset, title) {
+          var data = new google.visualization.DataTable();
+          data.addColumn('string', 'From');
+          data.addColumn('string', 'To');
+          data.addColumn('number', 'Weight');
+          data.addColumn({type: 'string', role: 'tooltip', p: {html: true}});
+          data.addRows(dataset);
+
+          var options = {
+            width: 1000,
+            height: 400,
+            sankey: {
+              node: { label: { fontSize: 11 }, interactivity: true, width: 15, labelPadding: 10 },
+              link: { colorMode: 'gradient' },
+              margin: { right: 280, left: 20 }
+            },
+            tooltip: { isHtml: true }
+          };
+
+          var chart = new google.visualization.Sankey(document.getElementById(containerId));
+          chart.draw(data, options);
+        }
+
+        // 3. EXECUTION
+        renderSankey('chart_hl', hl);
+        renderSankey('chart_rev', rev);
+        renderSankey('chart_soc', soc_media);
+        renderSankey('chart_edu', edu);
+        renderSankey('chart_health', health);
+        renderSankey('chart_gov', gov);
+      }
+    </script>
+    <style>
+      body { font-family: sans-serif; background-color: #f4f7f6; padding: 40px; }
+      .chart-container { background: white; margin-bottom: 50px; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+      h2 { color: #2c3e50; border-left: 5px solid #3498db; padding-left: 15px; margin-bottom: 20px; }
+      .google-visualization-tooltip { border: none !important; box-shadow: 0 8px 15px rgba(0,0,0,0.15); padding: 12px !important; max-width: 320px !important; border-radius: 8px; }
+      b { color: #3366cc; }
+    </style>
+  </head>
+  <body>
+    <h2>Housing & Labor</h2>
+    <div id="chart_hl" class="chart-container"></div>
+
+    <h2>Company Revenue Generation</h2>
+    <div id="chart_rev" class="chart-container"></div>
+
+    <h2>Social Media, Sports & Entertainment</h2>
+    <div id="chart_soc" class="chart-container"></div>
+
+    <h2>Education & Academia</h2>
+    <div id="chart_edu" class="chart-container"></div>
+
+    <h2>Healthcare & Diagnostics</h2>
+    <div id="chart_health" class="chart-container"></div>
+
+    <h2>Government & Infrastructure</h2>
+    <div id="chart_gov" class="chart-container"></div>
+  </body>
+</html>

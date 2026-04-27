@@ -1,0 +1,62 @@
+Presentation title,Industry (where is AI used?) (multi-select possible),AI use (how is AI used?) (multi-select possible),Fairness issue (multi-select possible),Orientation (multi-select not possible)
+Amazon resume,"""Internal business operations, workplace & labor dynamics""","Classification tasks (speech/voice/age recognition), Natural Language Processing",Disparate impact across social groups,Negative (AI detracts from fairness)
+AI in Voice Infringement - China 2023 case,?/NA (presentation doesn't talk about specific industry),Generative AI,Privacy & surveillance concerns,Negative (AI detracts from fairness)
+2019 Apple Card Bias Case,"""Finance, banking & insurance""",Classification tasks (speech/voice/age recognition),Disparate impact across social groups,Negative (AI detracts from fairness)
+Spotify’s Recommendation System,"Cultural representation, ""Social media, sports, entertainment, & platforms""",Recommendation systems,Balancing between different concepts of fairness,Neutral (mixed bag)
+AI-generated Art/Music,"Cultural representation, ""Social media, sports, entertainment, & platforms""",Generative AI,Balancing between different concepts of fairness,Negative (AI detracts from fairness)
+Bias in Speech Recognition,?/NA (presentation doesn't talk about specific industry),Natural Language Processing,Disparate impact across social groups,Negative (AI detracts from fairness)
+AI-Based College Admissions Screening,Education & academia,Algorithms (optimization),Disparate impact across social groups,Negative (AI detracts from fairness)
+Kidney Function Estimates,Education & academia,Algorithms (optimization),Disparate impact across social groups,Negative (AI detracts from fairness)
+Bias in Dating apps,"""Social media, sports, entertainment, & platforms""",Recommendation systems,Balancing between different concepts of fairness,Neutral (mixed bag)
+HireVue's Use of AI in Interviews,"""Internal business operations, workplace & labor dynamics""",Natural Language Processing,Disparate impact across social groups,Negative (AI detracts from fairness)
+AI Medical Scribes: From Burnout Relief to Revenue Optimization,Healthcare & diagnostics,Natural Language Processing,Disparate impact across social groups,Neutral (mixed bag)
+How Businesses Are Manipulating ChatGPT Results,"""Internal business operations, workplace & labor dynamics""",LLM & chatbots,Balancing between different concepts of fairness,Neutral (mixed bag)
+AI for Diabetic Retinopathy,Healthcare & diagnostics,Algorithms (optimization),Disparate impact across social groups,Neutral (mixed bag)
+Bossware and Bias,"""Internal business operations, workplace & labor dynamics""",Algorithms (optimization),Privacy & surveillance concerns,Neutral (mixed bag)
+Algorithmic Case Sourcing (Legal),Law,"Algorithms (optimization), Natural Language Processing",Disparate impact across social groups,Neutral (mixed bag)
+2025-2026 Workday AI Hiring Lawsuit,"""Internal business operations, workplace & labor dynamics""",Classification tasks (speech/voice/age recognition),Disparate impact across social groups,Negative (AI detracts from fairness)
+Environmental Impact of LLM,?/NA (presentation doesn't talk about specific industry),,,
+AI in insurance claim review,"""Finance, banking & insurance""",,,
+IRS Random Audit Bias,"""Government, infrastructure management, social welfare""",,,
+Epistemic injustice in LLMs,?/NA (presentation doesn't talk about specific industry),LLM & chatbots,Epistemic injustice,
+AI in Child Welfare,"""Government, infrastructure management, social welfare""",,,
+Global South Disparities in Automated Content Moderation Systems,"Content moderation (trust & safety), ""Social media, sports, entertainment, & platforms""",,,
+iTutor Age Discrimination Case,Education & academia,Classification tasks (speech/voice/age recognition),Disparate impact across social groups,
+SafeRent Tenant Screening Algorithm,Housing,,,
+Model Performance in Named Entity Recognition,?/NA (presentation doesn't talk about specific industry),,,
+Disparate Impact of GenAI Use In News,News & information ecosystem,,,
+BNPL,,,,
+Hate speech misclassification,Content moderation (trust & safety),,,
+RiteAid Facial Recognition,?/NA (presentation doesn't talk about specific industry),Classification tasks (speech/voice/age recognition),Privacy & surveillance concerns,Negative (AI detracts from fairness)
+Meta AI ad system,Advertisement & business revenue making,,,
+AI-Powered Infrastructure Surveillance Bias,"""Government, infrastructure management, social welfare""",,,
+Racial Bias in Hate Speech and Abusive Language Detection,Content moderation (trust & safety),,,
+AI Racial Bias in Mortgage Lending,Housing,,,
+AI-based Age verification algorithm,"""Social media, sports, entertainment, & platforms""",,,
+Instacart's dynamic pricing,Advertisement & business revenue making,Recommendation systems,,
+AI & Sports Betting Addiction,"""Social media, sports, entertainment, & platforms""",,,
+RealPage: dynamic rent-setting algorithms,Housing,,,
+Bhashini: India's National translation platform,"""Government, infrastructure management, social welfare""",,,
+AI Dynamic Pricing in Airlines: Fairness Implications,Advertisement & business revenue making,,,
+Fairness in Tik Tok's Recommender Algorithm,"""Social media, sports, entertainment, & platforms""",Recommendation systems,Balancing between different concepts of fairness,Negative (AI detracts from fairness)
+"clearview AI, NYPD Misuse of Facial Recognition","""Government, infrastructure management, social welfare""",,Privacy & surveillance concerns,
+YouTube Recommendation Algorithm: Fairness Implications,"""Social media, sports, entertainment, & platforms""",Recommendation systems,Disparate impact across social groups,
+Proctorio exam proctoring,Education & academia,,,
+Computer-aided detection (CAD) software for tuberculosis screening in South Africa,Healthcare & diagnostics,,,
+Google's Gemma Downplaying Women's Health Issues,Healthcare & diagnostics,,,
+Uber Driver Fraud Detection and Auto Deactive,"""Social media, sports, entertainment, & platforms""",,,
+AI in EU Asylum Procedures,"""Government, infrastructure management, social welfare""",,,
+Algorithmic Rent Pricing,Housing,,,
+AI based workplace management at Amazon,"""Internal business operations, workplace & labor dynamics""",,,
+reCAPTCHA v3,?/NA (presentation doesn't talk about specific industry),,,
+AI Face-Swap Apps & Consent Transparency,"""Social media, sports, entertainment, & platforms""",,,
+AI in Tennis: Hawk-Eye,"""Social media, sports, entertainment, & platforms""",,,
+UC Berkeley BearGPT,"""Internal business operations, workplace & labor dynamics""",LLM & chatbots,,
+AI Singapore and SEALION: LLMs in low resource Southeast Asian languages,Cultural representation,,,
+Resurrecting the Dead: AI Consent Implications,"""Social media, sports, entertainment, & platforms""",,,
+AI Bias in Power Systems Domain,"""Government, infrastructure management, social welfare""",,,
+Auditing the audits': takeaways from analyzing NYC's Local Law 144 bias audits,"""Government, infrastructure management, social welfare""",,,
+Biases found in Synthetic or Pseudo Data and Data Feedback Loops,Education & academia,,,
+Claude Interviewer Tool for Research,Education & academia,,,
+Age and Race Biases in Autonomous Driving Systems,?/NA (presentation doesn't talk about specific industry),"Classification tasks (speech/voice/age recognition), Embodied systems (autonomous driving)",,
+Turnitin AI Detection,Education & academia,Natural Language Processing,,
