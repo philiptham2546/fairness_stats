@@ -1114,6 +1114,36 @@
         padding: 0 12px;
       }
 
+      .section-insights {
+        max-width: 860px;
+        margin: 0 auto 24px;
+        padding: 0 12px;
+        box-sizing: border-box;
+      }
+
+      .insight-list {
+        margin: 0;
+        padding-left: 1.35em;
+        color: #5d6d7e;
+        font-size: 14px;
+        line-height: 1.55;
+        text-align: left;
+      }
+
+      .insight-list li {
+        margin-bottom: 0.7em;
+      }
+
+      .insight-list li:last-child {
+        margin-bottom: 0;
+      }
+
+      .chart-item .insight-list {
+        margin-bottom: 14px;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
       .pie-grid {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1279,6 +1309,25 @@
         margin-bottom: 25px;
       }
 
+      .site-footer {
+        text-align: center;
+        margin-top: 48px;
+        padding: 28px 16px 8px;
+        border-top: 1px solid #e0e0e0;
+        color: #7f8c8d;
+        font-size: 14px;
+        line-height: 1.55;
+      }
+
+      .site-footer p {
+        margin: 0 0 8px;
+        color: inherit;
+      }
+
+      .site-footer p:last-child {
+        margin-bottom: 0;
+      }
+
       .google-visualization-tooltip {
         border: none !important;
         border-radius: 8px;
@@ -1326,6 +1375,12 @@
 
       <section class="page-section" aria-labelledby="section-overview-heading">
         <h2 id="section-overview-heading" class="section-title">Overall breakdown of AI in the World presentations</h2>
+        <div class="section-insights">
+          <ul class="insight-list">
+            <li>Topics covered a roughly even split between corporate, public, and internet/digital society AI use.</li>
+            <li>While presentations highlighted a diversity of AI use cases by companies, fairness concerns predominantly centered around disparate impact.</li>
+          </ul>
+        </div>
         <div class="pie-grid">
           <div class="pie-card">
             <div class="pie-chart-title">Industry clusters where AI fairness issues have been raised</div>
@@ -1355,18 +1410,29 @@
           <div class="chart-item">
             <div class="chart-label">Corporate America</div>
             <div class="chart-subtitle" id="subtitle_corporate_america"></div>
+            <ul class="insight-list">
+              <li>In Corporate America, the potential for AI to cause disparate impact across social groups is by far the most pressing fairness issue.</li>
+              <li>lorem ipsum</li>
+            </ul>
             <div id="chart_corporate_america" class="chart-container"></div>
           </div>
 
           <div class="chart-item">
             <div class="chart-label">Public Sphere</div>
             <div class="chart-subtitle" id="subtitle_public_sphere"></div>
+            <ul class="insight-list">
+              <li>In the public sphere, disparate impact across social groups is the most frequently raised fairness issue. Optimizing human tasks and processes is particularly complex and high-stakes.</li>
+            </ul>
             <div id="chart_public_sphere" class="chart-container"></div>
           </div>
 
           <div class="chart-item">
             <div class="chart-label">Internet Society</div>
             <div class="chart-subtitle" id="subtitle_internet_society"></div>
+            <ul class="insight-list">
+              <li>Recommendation systems are the most common use of AI in the internet society. In the same vein, epistemic injustice is the most often raised fairness issue.</li>
+              <li>Here, feedback loops are especially tight and crucial, both to the success of the software companies, and leads to potentially harmful feedback loops for the users.</li>
+            </ul>
             <div id="chart_internet_society" class="chart-container"></div>
           </div>
         </div>
@@ -1377,10 +1443,20 @@
         <div class="charts-grid charts-grid--single">
           <div class="chart-item chart-item--ai-fairness-sankey">
             <div class="chart-subtitle" id="subtitle_ai_use_to_fairness"></div>
+            <ul class="insight-list">
+              <li>Complex relationship between how AI is used and fairness issues raised.</li>
+              <li>For optimization algorithms, classification, NLP, the most pressing fairness concern was disparate impact among social groups.</li>
+              <li>For LLM &amp; chatbots and recommendation systems, the most pressing fairness concern was epistemic injustice (all types).</li>
+            </ul>
             <div id="chart_ai_use_to_fairness" class="chart-container"></div>
           </div>
         </div>
       </section>
+
+      <footer class="site-footer">
+        <p>Made by Ananya Sammidi, Angela Bi, Philip Tham, and Tiffany Yu</p>
+        <p>CS5382 Fairness in Machine Learning (2026SP)</p>
+      </footer>
     </div>
   </body>
 </html>
