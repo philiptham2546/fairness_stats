@@ -380,6 +380,154 @@
     // Zero-weight Level 1 row omitted:
     // Internet Society -> Algorithms (optimization): 0
   ];
+  var ai_use_to_fairness = [
+    [
+      "Algorithms (optimization)",
+      "Disparate impact across social groups",
+      8,
+      "<b>Total cases: 8</b><br/>Algorithms (optimization) → Disparate impact across social groups"
+    ],
+
+    [
+      "Algorithms (optimization)",
+      "Privacy & surveillance concerns",
+      1,
+      "<b>Total cases: 1</b><br/>Algorithms (optimization) → Privacy & surveillance concerns"
+    ],
+
+    [
+      "Benchmarking",
+      "Disparate impact across social groups",
+      1,
+      "<b>Total cases: 1</b><br/>Benchmarking → Disparate impact across social groups"
+    ],
+
+    [
+      "Classification tasks (speech/voice/age recognition)",
+      "Disparate impact across social groups",
+      11,
+      "<b>Total cases: 11</b><br/>Classification tasks (speech/voice/age recognition) → Disparate impact across social groups"
+    ],
+
+    [
+      "Classification tasks (speech/voice/age recognition)",
+      "Epistemic injustice (all types)",
+      3,
+      "<b>Total cases: 3</b><br/>Classification tasks (speech/voice/age recognition) → Epistemic injustice (all types)"
+    ],
+
+    [
+      "Classification tasks (speech/voice/age recognition)",
+      "Privacy & surveillance concerns",
+      4,
+      "<b>Total cases: 4</b><br/>Classification tasks (speech/voice/age recognition) → Privacy & surveillance concerns"
+    ],
+
+    [
+      "Embodied systems (autonomous driving)",
+      "Disparate impact across social groups",
+      2,
+      "<b>Total cases: 2</b><br/>Embodied systems (autonomous driving) → Disparate impact across social groups"
+    ],
+
+    [
+      "Embodied systems (autonomous driving)",
+      "Privacy & surveillance concerns",
+      2,
+      "<b>Total cases: 2</b><br/>Embodied systems (autonomous driving) → Privacy & surveillance concerns"
+    ],
+
+    [
+      "Generative AI",
+      "Balancing between different concepts of fairness",
+      1,
+      "<b>Total cases: 1</b><br/>Generative AI → Balancing between different concepts of fairness"
+    ],
+
+    [
+      "Generative AI",
+      "Disparate impact across social groups",
+      2,
+      "<b>Total cases: 2</b><br/>Generative AI → Disparate impact across social groups"
+    ],
+
+    [
+      "Generative AI",
+      "Privacy & surveillance concerns",
+      2,
+      "<b>Total cases: 2</b><br/>Generative AI → Privacy & surveillance concerns"
+    ],
+
+    [
+      "LLM & chatbots",
+      "Balancing between different concepts of fairness",
+      1,
+      "<b>Total cases: 1</b><br/>LLM & chatbots → Balancing between different concepts of fairness"
+    ],
+
+    [
+      "LLM & chatbots",
+      "Disparate impact across social groups",
+      2,
+      "<b>Total cases: 2</b><br/>LLM & chatbots → Disparate impact across social groups"
+    ],
+
+    [
+      "LLM & chatbots",
+      "Epistemic injustice (all types)",
+      5,
+      "<b>Total cases: 5</b><br/>LLM & chatbots → Epistemic injustice (all types)"
+    ],
+
+    [
+      "Natural Language Processing",
+      "Disparate impact across social groups",
+      6,
+      "<b>Total cases: 6</b><br/>Natural Language Processing → Disparate impact across social groups"
+    ],
+
+    [
+      "Natural Language Processing",
+      "Epistemic injustice (all types)",
+      2,
+      "<b>Total cases: 2</b><br/>Natural Language Processing → Epistemic injustice (all types)"
+    ],
+
+    [
+      "Natural Language Processing",
+      "Privacy & surveillance concerns",
+      1,
+      "<b>Total cases: 1</b><br/>Natural Language Processing → Privacy & surveillance concerns"
+    ],
+
+    [
+      "Recommendation systems",
+      "Balancing between different concepts of fairness",
+      1,
+      "<b>Total cases: 1</b><br/>Recommendation systems → Balancing between different concepts of fairness"
+    ],
+
+    [
+      "Recommendation systems",
+      "Disparate impact across social groups",
+      3,
+      "<b>Total cases: 3</b><br/>Recommendation systems → Disparate impact across social groups"
+    ],
+
+    [
+      "Recommendation systems",
+      "Epistemic injustice (all types)",
+      2,
+      "<b>Total cases: 2</b><br/>Recommendation systems → Epistemic injustice (all types)"
+    ],
+
+    [
+      "Recommendation systems",
+      "Privacy & surveillance concerns",
+      1,
+      "<b>Total cases: 1</b><br/>Recommendation systems → Privacy & surveillance concerns"
+    ]
+  ];
 
       var AI_USE_SOURCE_MARKERS = [
         'Classification tasks',
@@ -716,7 +864,8 @@
         google.visualization.events.addListener(chart, 'onmouseout', onChartHover);
       }
 
-      function drawSankey(dataset, containerId) {
+      function drawSankey(dataset, containerId, sankeyOpts) {
+        sankeyOpts = sankeyOpts || {};
         var displayDataset = augmentSankeyDatasetWithFairnessStats(dataset);
         var data = new google.visualization.DataTable();
 
@@ -731,8 +880,17 @@
         var chartItem = chartHost ? chartHost.closest('.chart-item') : null;
         var innerW = chartItem ? chartItem.getBoundingClientRect().width : 640;
         var maxW = Math.floor(innerW - 32);
-        var chartWidth = Math.max(340, Math.min(560, Math.round(maxW * 0.72)));
-        var chartHeight = Math.max(280, Math.round(chartWidth * 0.48));
+        var chartWidth;
+        var chartHeight;
+        var labelFontSize = 12;
+        if (sankeyOpts.compactTwoColumn) {
+          chartWidth = Math.min(560, Math.max(320, maxW - 40));
+          chartHeight = Math.max(260, Math.round(chartWidth * 0.36));
+          labelFontSize = 11;
+        } else {
+          chartWidth = Math.max(340, Math.min(560, Math.round(maxW * 0.72)));
+          chartHeight = Math.max(280, Math.round(chartWidth * 0.48));
+        }
 
         var options = {
           width: chartWidth,
@@ -741,7 +899,7 @@
             iterations: 40,
             node: {
               label: {
-                fontSize: 12
+                fontSize: labelFontSize
               },
               interactivity: true,
               width: 10,
@@ -894,10 +1052,13 @@
           'Total cases: ' + getTotalCases(public_sphere);
         document.getElementById('subtitle_internet_society').textContent =
           'Total cases: ' + getTotalCases(internet_society);
+        document.getElementById('subtitle_ai_use_to_fairness').textContent =
+          'Total cases: ' + getTotalCases(ai_use_to_fairness);
 
         drawSankey(corporate_america, 'chart_corporate_america');
         drawSankey(public_sphere, 'chart_public_sphere');
         drawSankey(internet_society, 'chart_internet_society');
+        drawSankey(ai_use_to_fairness, 'chart_ai_use_to_fairness', { compactTwoColumn: true });
       }
 
       var overviewPieResizeTimer;
@@ -1136,6 +1297,26 @@
           grid-template-columns: 1fr;
         }
       }
+
+      .charts-grid--single {
+        grid-template-columns: 1fr;
+      }
+
+      .chart-item--ai-fairness-sankey {
+        overflow-x: auto;
+        overflow-y: visible;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      #chart_ai_use_to_fairness.chart-container {
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 4px;
+        padding-right: 20px;
+        overflow: visible;
+        box-sizing: border-box;
+      }
     </style>
   </head>
 
@@ -1169,7 +1350,7 @@
       </section>
 
       <section class="page-section" aria-labelledby="section-sankey-heading">
-        <h2 id="section-sankey-heading" class="section-title">Sankey diagrams showing the relationship between industry, AI use case, and fairness issue</h2>
+        <h2 id="section-sankey-heading" class="section-title">Relationship between industry, AI use cases and fairness issues</h2>
         <div class="charts-grid">
           <div class="chart-item">
             <div class="chart-label">Corporate America</div>
@@ -1187,6 +1368,16 @@
             <div class="chart-label">Internet Society</div>
             <div class="chart-subtitle" id="subtitle_internet_society"></div>
             <div id="chart_internet_society" class="chart-container"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section" aria-labelledby="section-ai-use-fairness-heading">
+        <h2 id="section-ai-use-fairness-heading" class="section-title">Relationship between AI use cases and fairness issues</h2>
+        <div class="charts-grid charts-grid--single">
+          <div class="chart-item chart-item--ai-fairness-sankey">
+            <div class="chart-subtitle" id="subtitle_ai_use_to_fairness"></div>
+            <div id="chart_ai_use_to_fairness" class="chart-container"></div>
           </div>
         </div>
       </section>
